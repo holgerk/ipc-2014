@@ -1,0 +1,7 @@
+---
+
+- name: Hello World
+  hosts: app_servers
+  tasks:
+  - debug:
+      msg: Hello from {{inventory_hostname}}
