@@ -1,0 +1,12 @@
+<VirtualHost *:80>
+    ServerName {{hostname}}
+
+    DocumentRoot {{document_root}}
+    <Directory {{document_root}}>
+        Options FollowSymLinks
+        AllowOverride All
+    </Directory>
+
+    LogLevel notice
+    ErrorLog /var/log/apache2/error.log
+</VirtualHost>
