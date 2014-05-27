@@ -1,0 +1,11 @@
+---
+
+- name: Test environment specific variables
+  hosts: app_servers
+  vars_files:
+  - ["variables-{{app_env}}.yml"]
+  gather_facts: false
+  tasks:
+
+  - debug:
+      msg: Env specific value {{env_specifc_variable}}
