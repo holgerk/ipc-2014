@@ -1,0 +1,38 @@
+---
+
+- name: Deploy - Preperation Phase
+  hosts: app_servers
+  gather_facts: false
+  max_fail_percentage: 0.00000000000001
+  vars:
+    source_repository: ~/Dropbox/ipc
+    target_repository: ~/code/php/ipc/repo
+    releases_directory: ~/code/php/ipc/releases
+  tasks:
+  - name: git checkout
+    git:
+      repo: "{{source_repository}}"
+      dest: "{{target_repository}}"
+      version: HEAD
+    register: git_result
+  - debug:
+      msg: "git update from {{git_result.before}} to: {{git_result.after}}"
+  - set_fact:
+      next_release_directory: "{{releases_directory}}/{{git_result.after}}"
+  - name: create release
+    git:
+      repo: "{{target_repository}}"
+      dest: "{{next_release_directory}}"
+      version: '{{git_result.after}}'
+
+- name: Deploy - Activation Phase
+  vars:
+    release_symlink: /home/holger/code/php/ipc/htdocs
+  hosts: app_servers
+  gather_facts: false
+  tasks:
+  - name: update release symlink
+    file:
+      state: link
+      src: "{{next_release_directory}}"
+      path: "{{release_symlink}}"
