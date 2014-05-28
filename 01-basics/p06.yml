@@ -1,0 +1,8 @@
+---
+
+- hosts: all
+  gather_facts: false
+  tasks:
+  - file:
+      state: directory
+      path: "{{inventory_dir}}/test-directory"

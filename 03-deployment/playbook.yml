@@ -1,13 +1,27 @@
 ---
 
+kein auskommentieren
+
+alles was man per ssh machen kann mit dem shell module machen
+
+module bieten idempotence und vereinfachen sachen
+
+hello world
+idempotenz
+
+pro demo eine seite bullet points worum es geht
+
+
+
+
 - name: Deploy - Preperation Phase
   hosts: app_servers
   gather_facts: false
   max_fail_percentage: 0.00000000000001
   vars:
-    source_repository: ~/Dropbox/ipc
-    target_repository: ~/code/php/ipc/repo
-    releases_directory: ~/code/php/ipc/releases
+    source_repository: /home/holger/Dropbox/ipc-example-project
+    target_repository: /home/holger/ipc-example-target/repository
+    releases_directory: /home/holger/ipc-example-target/releases
   tasks:
   - name: git checkout
     git:
@@ -15,8 +29,10 @@
       dest: "{{target_repository}}"
       version: HEAD
     register: git_result
+    # failed_when: "'{{inventory_hostname}}' == '127.0.0.1'"
   - debug:
-      msg: "git update from {{git_result.before}} to: {{git_result.after}}"
+      msg: >
+        git update from {{git_result.before}} to: {{git_result.after}}
   - set_fact:
       next_release_directory: "{{releases_directory}}/{{git_result.after}}"
   - name: create release
@@ -26,8 +42,9 @@
       version: '{{git_result.after}}'
 
 - name: Deploy - Activation Phase
+  max_fail_percentage: 0.00000000000001
   vars:
-    release_symlink: /home/holger/code/php/ipc/htdocs
+    release_symlink: ~/Dropbox/ipc-example-target/current-release
   hosts: app_servers
   gather_facts: false
   tasks:

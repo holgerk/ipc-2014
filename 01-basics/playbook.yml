@@ -3,16 +3,17 @@
 - name: Hello World
   hosts: app_servers
   tasks:
-
+todo kuerzer
+einmal mit shell und das gleich mit module
   # First task
   - debug:
       msg: Hello from {{inventory_hostname}}
 
   # Naming tasks
-  - name: That is my name
-    debug:
-      msg: >
-        My hostname is: {{ansible_hostname}}
+  # - name: That is my name
+  #   debug:
+  #     msg: >
+  #       My hostname is: {{ansible_hostname}}
 
   # - name: Dumping all facts about a host
   #   debug:
@@ -23,17 +24,17 @@
   #     msg: >
   #       My ip is: {{ansible_eth0.ipv4.address}}
 
-  - name: Register variables
-    command: date +%H:%M
-    register: current_time
+  # - name: Register variables
+  #   command: date +%H:%M
+  #   register: current_time
   # - name: Dump variable
   #   debug:
   #     var: current_time
 
-  - name: Create new host facts
-    set_fact:
-      current_time: '{{current_time.stdout}}'
-  - debug: var=current_time
+  # - name: Create new host facts
+  #   set_fact:
+  #     current_time: '{{current_time.stdout}}'
+  # - debug: var=current_time
 
   # More infor about magic variables:
   # http://docs.ansible.com/playbooks_variables.html#magic-variables-and-how-to-access-information-about-other-hosts

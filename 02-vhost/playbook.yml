@@ -16,12 +16,12 @@
     lineinfile:
       dest: /etc/hosts
       line: "127.0.0.1 {{hostname}}"
-  - name: Create document root directory {{document_root}}
-    file:
-      path: "{{document_root}}"
-      state: directory
-      owner: holger
-      group: holger
+  # - name: Create document root directory {{document_root}}
+  #   file:
+  #     path: "{{document_root}}"
+  #     state: directory
+  #     owner: holger
+  #     group: holger
   - name: Create virtual host file
     template:
       src: vhost-template.j2

@@ -1,0 +1,8 @@
+---
+
+- hosts: all
+  gather_facts: false
+  tasks:
+  - shell: >
+      mkdir {{inventory_dir}}/test-directory
+      creates={{inventory_dir}}/test-directory
