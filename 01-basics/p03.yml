@@ -1,6 +1,5 @@
 ---
 
 - hosts: all
-  gather_facts: false
   tasks:
-  - shell: mkdir {{inventory_dir}}/test-directory
+  - shell: "mkdir {{inventory_dir}}/test-directory"
