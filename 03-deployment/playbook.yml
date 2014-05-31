@@ -1,19 +1,5 @@
 ---
 
-kein auskommentieren
-
-alles was man per ssh machen kann mit dem shell module machen
-
-module bieten idempotence und vereinfachen sachen
-
-hello world
-idempotenz
-
-pro demo eine seite bullet points worum es geht
-
-
-
-
 - name: Deploy - Preperation Phase
   hosts: app_servers
   gather_facts: false
