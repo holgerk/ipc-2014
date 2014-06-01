@@ -1,5 +1,5 @@
 ---
-
+#ansible-playbook -i inventory.ini playbook.yml -c local -e 'hostname=hello-ipc.dev document_root=/home/holger/Dropbox/ipc-examples/02-vhost/hello-ipc'
 - name: Create a virtual host
   hosts: 127.0.0.1
   gather_facts: false
@@ -12,37 +12,44 @@
     hostname: "Please enter hostname"
     document_root: "Please enter document root"
   tasks:
+
   - name: Create /etc/hosts entry for {{hostname}}
     lineinfile:
       dest: /etc/hosts
       line: "127.0.0.1 {{hostname}}"
-  # - name: Create document root directory {{document_root}}
-  #   file:
-  #     path: "{{document_root}}"
-  #     state: directory
-  #     owner: holger
-  #     group: holger
+
+  - name: Create document root directory {{document_root}}
+    file:
+      path: "{{document_root}}"
+      state: directory
+      owner: holger
+      group: holger
+
   - name: Create virtual host file
     template:
       src: vhost-template.j2
       dest: /etc/apache2/sites-available/{{hostname}}.conf
     notify:
     - reload apache2
+
   - name: Enable site
     command: >
       a2ensite {{hostname}}.conf
       creates=/etc/apache2/sites-enabled/{{hostname}}.conf
     notify:
     - reload apache2
+
   - name: Create test file
     shell: >
       echo hello > {{document_root}}/test.htm
       creates={{document_root}}/test.htm
+
   - name: Check test file
     command: curl {{hostname}}/test.htm
     register: curl_result
     failed_when: curl_result.stdout != 'hello'
     changed_when: false
+
   handlers:
   - name: reload apache2
     service:
