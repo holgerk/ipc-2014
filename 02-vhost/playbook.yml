@@ -39,10 +39,12 @@
       state: reloaded
 
 
+
+
+
 - name: Self test the host
   hosts: 127.0.0.1
   gather_facts: false
-  sudo: true
   tasks:
   - name: Create test file
     shell: >
