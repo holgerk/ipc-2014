@@ -5,4 +5,4 @@
   tasks:
   - file: >
       state=directory
-      path={{inventory_dir}}/test-directory
+      path=/home/holger/test-directory

@@ -4,5 +4,5 @@
   gather_facts: false
   tasks:
   - shell: >
-      mkdir {{inventory_dir}}/test-directory
-      creates={{inventory_dir}}/test-directory
+      mkdir /home/holger/test-directory
+      creates=/home/holger/test-directory
