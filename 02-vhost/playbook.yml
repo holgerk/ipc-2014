@@ -3,14 +3,7 @@
 - name: Create a virtual host
   hosts: 127.0.0.1
   gather_facts: false
-  # execute with --ask-sudo-pass, will prompt for sudo password
   sudo: true
-  # pass extra vars via:
-  # -e 'hostname=<hostname> document_root=<document root>'
-  # or get prompted
-  vars_prompt:
-    hostname: "Please enter hostname"
-    document_root: "Please enter document root"
   tasks:
 
   - name: Create /etc/hosts entry for {{hostname}}
@@ -39,6 +32,18 @@
     notify:
     - reload apache2
 
+  handlers:
+  - name: reload apache2
+    service:
+      name: apache2
+      state: reloaded
+
+
+- name: Self test the host
+  hosts: 127.0.0.1
+  gather_facts: false
+  sudo: true
+  tasks:
   - name: Create test file
     shell: >
       echo hello > {{document_root}}/test.htm
@@ -49,9 +54,3 @@
     register: curl_result
     failed_when: curl_result.stdout != 'hello'
     changed_when: false
-
-  handlers:
-  - name: reload apache2
-    service:
-      name: apache2
-      state: reloaded
